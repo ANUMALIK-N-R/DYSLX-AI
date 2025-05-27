@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EEG IMAGE ANALYSIS</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5faff;
+      color: #1a2e44;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(130, 213, 255, 0.2);
+    }
+
+    h1 {
+      text-align: center;
+      color: #428ad6;
+      margin-bottom: 30px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    input[type="file"] {
+      margin: 20px 0;
+      padding: 10px;
+    }
+
+    button {
+      background-color: #67b0ff;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #265a99;
+    }
+
+    .image-preview {
+      margin-top: 20px;
+      max-width: 100%;
+      max-height: 300px;
+      display: none;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .note {
+      font-size: 0.95rem;
+      color: #555;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    footer {
+      margin-top: 60px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>EEG IMAGE ANLYSIS</h1>
+    <p class="note">Upload a clear EEG image to detect dyslexia-related traits.</p>
+
+    <form action="/analyze-handwriting" method="POST" enctype="multipart/form-data">
+      <input type="file" accept="image/*" name="handwritingImage" id="fileInput" required />
+      <img id="preview" class="image-preview" alt="Image preview" />
+      <button type="submit">ANALYZE EEG</button>
+    </form>
+  </div>
+
+  <footer>&copy; 2025 Dyslexia Detect. All rights reserved.</footer>
+
+  <script>
+    // Image preview
+    document.getElementById("fileInput").addEventListener("change", function () {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const preview = document.getElementById("preview");
+          preview.src = e.target.result;
+          preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
+
+</body>
+</html>

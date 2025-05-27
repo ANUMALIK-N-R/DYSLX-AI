@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rectification Page</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: #e6f7ff;
+      margin: 0;
+      padding: 0;
+    }
+    nav {
+      background: #0077cc;
+      padding: 15px;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    .rectification-container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+    .game-box {
+  background: #ffffff;
+  border-radius: 15px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-size: 1.4rem; /* Larger base text */
+}
+
+    .game-title {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #004080;
+    }   
+
+    .game-description {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .game-box button {
+        font-size: 1.2rem;
+        padding: 15px 25px;
+        margin: 10px 5px;
+        border: none;
+        background-color: #66bfff;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .game-box button:hover {
+        background-color: #3399ff;
+    }
+
+    .game-section {
+         margin-top: 20px;
+    }
+
+    .question {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    }
+
+    #recognized-text {
+        font-size: 1.3rem;
+    color: #005;
+    margin-top: 15px;
+    }
+
+    .choices button {
+      padding: 10px 15px;
+      font-size: 1rem;
+      border: none;
+      background: #000000;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .choices button:hover {
+      background: #bce3ff;
+    }
+    #scoreboard {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 30px;
+      text-align: center;
+    }
+    img {
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <ul class="nav-links">
+        <a href="index.html">HOME</a>
+        <a href="rectification.html">RECTIFICATION</a>
+        <a href="Dashboard.html">DASHBOARD</a>
+        <a href="signup.html">SIGN UP</a>
+    </ul>  
+  </nav>
+
+  <div class="rectification-container">
+    <h1 style="text-align:center; color:#0077cc;">Rectification Games</h1>
+
+    <!-- Animal Match -->
+<div class="game-box">
+    <div class="game-title">🐾 Animal Match</div>
+    <div class="game-description">Look at the picture of an animal and choose the correct name.</div>
+    <button onclick="startGame('animal')">Start Game</button>
+    <div id="game-animal" class="game-section" style="display:none;">
+      <div class="question">
+        <img id="animal-img" src="" alt="animal" style="width:200px;">
+      </div>
+      <div class="choices" id="animal-choices"></div>
+    </div>
+  </div>
+  
+  <!-- Sound Match -->
+  <div class="game-box">
+    <div class="game-title">🔊 Sound Match</div>
+    <div class="game-description">Listen to the sound and pick the word that matches what you hear.</div>
+    <button onclick="startGame('sound')">Start Game</button>
+    <div id="game-sound" class="game-section" style="display:none;">
+      <div class="question">
+        <button onclick="playSound()">Play Sound 🔊</button>
+      </div>
+      <div class="choices" id="sound-choices"></div>
+    </div>
+  </div>
+  
+  <!-- Alphabet Match -->
+  <div class="game-box">
+    <div class="game-title">🔤 Alphabet Match</div>
+    <div class="game-description">Identify the correct letter shown and pick it from the options.</div>
+    <button onclick="startGame('alphabet')">Start Game</button>
+    <div id="game-alphabet" class="game-section" style="display:none;">
+      <div class="question" id="alphabet-question" style="font-size:2rem; font-weight:bold;"></div>
+      <div class="choices" id="alphabet-choices"></div>
+    </div>
+  </div>
+  
+  <!-- Pronounce Word -->
+  <div class="game-box">
+    <div class="game-title">🎙️ Pronounce Word</div>
+    <div class="game-description">Say the word shown on the screen. We'll check how well you said it!</div>
+    <button onclick="startGame('pronounce')">Start Game</button>
+  
+    <div id="game-pronounce" class="game-section" style="display:none;">
+      <div class="question" id="pronounce-word" style="font-size:1.5rem; font-weight:bold; margin-bottom:10px;"></div>
+      <button id="start-btn" onclick="startRecognition()">🎤 Start Recording</button>
+      <button id="stop-btn" onclick="stopRecognition()" disabled>🛑 Stop Recording</button>
+      <p id="recognized-text"></p>
+    </div>
+  </div>
+  
+    <div id="scoreboard">Your Score: <span id="score">0</span></div>
+  </div>
+
+  <script>
+    const animalQuestions = [
+      { img: 'data:image/jpeg;base64,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', answer: 'Cat', options: ['Cat', 'Dog', 'Rat'] },
+      { img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzPh-L2Lqkyeekt5Vne_XnjcfZ9z7gVZ3Saw&s', answer: 'Dog', options: ['Pig', 'Dog', 'Cow'] },
+      { img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqjOkAuWLM0tnptgf_jyR1Nft83BbaFYGSdg&s', answer: 'Cow', options: ['Cow', 'Zebra', 'Donkey'] },
+      { img: 'https://media.istockphoto.com/id/872646276/photo/chicken-sunset.jpg?s=612x612&w=0&k=20&c=6AS1g192dw9C8YzQbBGeCXOS49N2MITIoWzYgEKCxC8=', answer: 'Hen', options: ['Duck', 'Hen', 'Goose'] },
+      { img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGbiU5ZhP5XSKb8tH5pIbcdE4wd707QoqLQg&s', answer: 'Rat', options: ['Cat', 'Rat', 'Pig'] },
+    ];
+
+    const soundQuestions = [
+      { audio: 'cat', answer: 'cat', options: ['cat', 'bat', 'hat'] },
+      { audio: 'dog', answer: 'dog', options: ['dog', 'log', 'frog'] },
+      { audio: 'sun', answer: 'sun', options: ['sun', 'son', 'bun'] },
+      { audio: 'cup', answer: 'cup', options: ['cup', 'cap', 'cop'] },
+      { audio: 'ball', answer: 'ball', options: ['ball', 'call', 'wall'] },
+    ];
+
+    const alphabetQuestions = [
+      { letter: 'A', options: ['A', 'H', 'R'] },
+      { letter: 'B', options: ['B', 'D', 'P'] },
+      { letter: 'C', options: ['C', 'G', 'O'] },
+      { letter: 'D', options: ['D', 'B', 'Q'] },
+      { letter: 'E', options: ['E', 'F', 'L'] },
+    ];
+
+    const pronounceQuestions = ['dog', 'cat', 'pen', 'cup', 'bus'];
+
+    let currentGame = '';
+    let currentIndex = 0;
+    let score = 0;
+
+    function startGame(gameName) {
+  currentGame = gameName;
+  currentIndex = 0;
+  score = 0;
+  document.getElementById('score').textContent = score;
+
+  // Hide all game sections
+  document.querySelectorAll('.game-section').forEach(sec => sec.style.display = 'none');
+
+  // Show only the selected game section
+  document.getElementById(`game-${gameName}`).style.display = 'block';
+
+  loadQuestion();
+}
+
+// Remove or comment this line:
+// window.onload = () => { currentGame = 'animal'; loadQuestion(); };
+
+
+    function loadQuestion() {
+      if (currentGame === 'animal') {
+        let q = animalQuestions[currentIndex];
+        document.getElementById('animal-img').src = q.img;
+        let container = document.getElementById('animal-choices');
+        container.innerHTML = '';
+        q.options.forEach(opt => {
+          let btn = document.createElement('button');
+          btn.textContent = opt;
+          btn.onclick = () => checkAnswer(opt, q.answer);
+          container.appendChild(btn);
+        });
+      } else if (currentGame === 'sound') {
+        let q = soundQuestions[currentIndex];
+        let container = document.getElementById('sound-choices');
+        container.innerHTML = '';
+        q.options.forEach(opt => {
+          let btn = document.createElement('button');
+          btn.textContent = opt;
+          btn.onclick = () => checkAnswer(opt, q.answer);
+          container.appendChild(btn);
+        });
+      } else if (currentGame === 'alphabet') {
+        let q = alphabetQuestions[currentIndex];
+        document.getElementById('alphabet-question').textContent = q.letter;
+        let container = document.getElementById('alphabet-choices');
+        container.innerHTML = '';
+        q.options.forEach(opt => {
+          let btn = document.createElement('button');
+          btn.textContent = opt;
+          btn.onclick = () => checkAnswer(opt, q.letter);
+          container.appendChild(btn);
+        });
+      } else if (currentGame === 'pronounce') {
+        document.getElementById('pronounce-word').textContent = pronounceQuestions[currentIndex];
+      }
+    }
+
+    function checkAnswer(selected, correct) {
+      if (selected.toLowerCase() === correct.toLowerCase()) score++;
+      document.getElementById('score').textContent = score;
+      currentIndex++;
+      if (currentIndex < 5) loadQuestion();
+      else alert("Game Over! Your score: " + score + "/5");
+    }
+
+    function playSound() {
+      let q = soundQuestions[currentIndex];
+      let utter = new SpeechSynthesisUtterance(q.audio);
+      speechSynthesis.speak(utter);
+    }
+
+    function startRecognition() {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.lang = 'en-US';
+      recognition.start();
+      recognition.onresult = function(event) {
+        const spoken = event.results[0][0].transcript.trim().toLowerCase();
+        document.getElementById('recognized-text').textContent = 'You said: ' + spoken;
+        checkAnswer(spoken, pronounceQuestions[currentIndex]);
+      };
+    }
+    let recognition;
+
+function startRecognition() {
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    alert("Speech recognition is not supported in this browser.");
+    return;
+  }
+
+  recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  recognition.lang = 'en-US';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  recognition.start();
+  document.getElementById('start-btn').disabled = true;
+  document.getElementById('stop-btn').disabled = false;
+  document.getElementById('recognized-text').textContent = 'Listening...';
+
+  recognition.onresult = function(event) {
+    const spoken = event.results[0][0].transcript.trim().toLowerCase();
+    document.getElementById('recognized-text').textContent = 'You said: ' + spoken;
+    checkAnswer(spoken, pronounceQuestions[currentIndex]);
+  };
+
+  recognition.onerror = function(event) {
+    document.getElementById('recognized-text').textContent = 'Error: ' + event.error;
+    stopRecognition();
+  };
+
+  recognition.onend = function() {
+    document.getElementById('start-btn').disabled = false;
+    document.getElementById('stop-btn').disabled = true;
+  };
+}
+
+function stopRecognition() {
+  if (recognition) {
+    recognition.stop();
+    document.getElementById('start-btn').disabled = false;
+    document.getElementById('stop-btn').disabled = true;
+    document.getElementById('recognized-text').textContent += ' (Stopped)';
+  }
+}
+  </script>
+</body>
+</html>

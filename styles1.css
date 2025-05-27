@@ -1,0 +1,151 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.signup-container {
+  display: flex;
+  width: 800px;
+  background-color: white;
+  box-shadow: 0 0 15px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 16px;
+  color: #333;
+}
+
+.left-panel, .right-panel {
+  padding: 40px 30px;
+  width: 50%;
+  box-sizing: border-box;
+}
+
+.left-panel {
+  position: relative;
+  background-image: url('login_bg.png');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* changed from center */
+  padding-top: 30px; /* added */
+  text-align: center;
+}
+
+
+.left-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+.left-panel .logo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 30px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+}
+
+/* Circular hover effect on logo */
+.left-panel .logo:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.6);
+}
+
+.left-panel {
+  background-color: #a4deff;
+  color: #1a2e44; /* dark navy blue */
+}
+
+.left-panel h2,
+.left-panel p {
+  text-shadow: 0 0 5px rgba(0,0,0,0.7);
+  margin: 0 0 15px;
+}
+
+.left-panel h2,
+.left-panel p {
+  color: #1a2e44; /* same dark navy for headings and paragraphs */
+  text-shadow: none; /* no need for shadow on solid color background */
+}
+
+
+.right-panel {
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 30px; /* add some padding for breathing space */
+}
+
+.right-panel h2 {
+  margin-bottom: 20px; /* slightly less space below */
+  font-weight: 600;
+  color: #222;
+  font-size: 24px; /* reduce from 28px to 24px */
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* center all items horizontally */
+  width: 100%;
+  max-width: 350px; /* limit form width */
+  margin: 0 auto; /* center form horizontally */
+}
+
+form label {
+  align-self: flex-start; /* align labels to left inside the form */
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #555;
+  font-size: 14px;
+}
+
+form input {
+  width: 100%; /* input takes full width of form */
+  margin-bottom: 15px;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.3s ease;
+  outline: none;
+  box-sizing: border-box; /* ensures padding doesn’t break width */
+}
+
+form button {
+  width: 100%; /* full width button */
+  padding: 10px 0;
+  background-color: #82d5ff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+form button:hover {
+  background-color: #46aee2;
+}
+

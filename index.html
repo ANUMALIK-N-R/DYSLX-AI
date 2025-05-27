@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Support Dyslexia</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<script>
+  function selectMethod(card) {
+    document.querySelectorAll('.method').forEach(el => el.classList.remove('selected'));
+    card.classList.add('selected');
+  }
+</script>
+
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo-circle">
+        <img src="logo.png" alt="Logo" />
+      </div>
+      <h1 class="site-title">DYSLEX-AI</h1>
+      <ul class="nav-links">
+        <li><a href="rectification.html">RECTIFICATION</a></li>
+        <li><a href="Dashboard.html">PROGRESS</a></li>
+        <li><a href="signup.html">SIGN UP</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-text">
+        <h1>IDENTIFY AND SUPPORT DYSLEXIA WITH CONFIDENCE</h1>
+        <p>
+          Our innovative platform offers multiple detection methods and
+          personalized support to help educators, parents, and individuals
+          navigate dyslexia with clarity and confidence.
+        </p>
+        <div class="hero-buttons">
+          <button onclick="location.href='#started'">Get Started</button>
+          <button onclick="location.href='#learnmore'">Learn More</button>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="home_1.png" alt="Support Dyslexia" />
+      </div>
+    </section>
+
+    <section class="detection-methods">
+      <h2>Detection Methods</h2>
+      <p>
+        Discover our scientifically-backed approach to identifying dyslexia
+        through multiple assessment methods.
+      </p>
+      <div class="methods">
+        <div class="method" onclick="selectMethod(this)">
+          <img src="https://www.shutterstock.com/shutterstock/photos/2030523821/display_1500/stock-photo-fountain-pen-on-an-antique-handwritten-letter-vintage-nib-pen-and-handwritten-english-cursive-2030523821.jpg" alt="Handwriting Analysis" />
+          <div class="method-content">
+            <h3>Handwriting Analysis</h3>
+            <p>Upload samples of handwriting to analyze traits and characteristics related to dyslexia.</p>
+            <a href="hand.html" class="button-link">Try Handwriting Analysis</a>
+          </div>
+        </div>
+      
+        <div class="method" onclick="selectMethod(this)">
+          <img src="https://media.istockphoto.com/id/1358653599/vector/brain-wave-3d.jpg?s=612x612&w=0&k=20&c=PFLn8lZUJtdALeLCDeIUBKVt4paDKwBDPatvtcyA2w8=" alt="EEG Brain Image Upload" />
+          <div class="method-content">
+            <h3>EEG Brain Image Upload</h3>
+            <p>Upload EEG brain images for advanced analysis of neural connections associated with dyslexia.</p>
+            <a href="eeg.html" class="button-link">Try EEG Analysis</a>
+          </div>
+        </div>
+      
+        <div class="method" onclick="selectMethod(this)">
+          <img src="https://www.shutterstock.com/image-photo/voice-recording-man-touching-microphone-600nw-2292486177.jpg" alt="Reading & Voice Recording" />
+          <div class="method-content">
+            <h3>Reading & Voice Recording</h3>
+            <p>Upload recorded reading aloud sessions to evaluate dyslexic tendencies.</p>
+            <a href="read.html" class="button-link">Try Reading Analysis</a>
+          </div>
+        </div>
+      </div>
+      
+    </section>
+
+    <section id="started" class="getting-started">
+      <h2>How to Get Started</h2>
+      <p>Follow these simple steps to begin your journey with Dyslexia Detect.</p>
+      <ol>
+        <li>Create an Account: Sign up to access our platform.</li>
+        <li>Choose a Detection Method: Select an appropriate method for evaluation.</li>
+        <li>View Results & Insights: Obtain results based on your selected analysis.</li>
+        <li>Access Support Resources: Utilize educational materials and additional resources.</li>
+      </ol>
+    </section>
+  </main>
+  <section class="cta-strip">
+    <div class="cta-content">
+      <h2>Ready to Detect Dyslexia?</h2>
+      <p>Join thousands of educators and parents using Dyslexia Detect.</p>
+      <button onclick="location.href='signup.html'">Get Started</button>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Dyslexia Detection Platform. All rights reserved.</p>
+  </footer>
+</body>
+</html>

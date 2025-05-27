@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Read Aloud – Dyslexia Detection</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #aad6ff, #f0f8ff);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Background blob effects */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 1200px;
+      height: 1200px;
+      background: radial-gradient(circle, rgba(8, 71, 177, 0.4), transparent);
+      top: -400px;
+      left: -400px;
+      z-index: -2;
+      animation: blobMove 20s ease-in-out infinite;
+    }
+
+    @keyframes blobMove {
+      0%, 100% {
+        transform: translate(0, 0);
+      }
+      50% {
+        transform: translate(100px, 80px);
+      }
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 50px;
+      width: 90%;
+      max-width: 800px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+      text-align: center;
+    }
+
+    .reading-text {
+  font-size: 1.8rem;
+  background: #e9f4ff;
+  padding: 35px;
+  border-left: 6px solid #4a90e2;
+  border-radius: 12px;
+  margin-bottom: 45px;
+  color: #222;
+  text-align: left;
+  line-height: 2.2rem;
+  letter-spacing: 0.08rem;
+  word-spacing: 0.2rem;
+}
+
+
+    h1 {
+      font-size: 2.5rem;
+      color: #0a4088;
+      margin-bottom: 30px;
+    }
+
+    .reading-text {
+      font-size: 1.4rem;
+      background: #e9f4ff;
+      padding: 25px;
+      border-left: 6px solid #4a90e2;
+      border-radius: 10px;
+      margin-bottom: 40px;
+      color: #333;
+      text-align: left;
+    }
+
+    button {
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-weight: 600;
+    }
+
+    button:hover {
+      background-color: #3678c0;
+    }
+
+    .status {
+      margin-top: 25px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #444;
+    }
+
+    .recording {
+      color: red;
+      font-weight: bold;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
+
+    audio {
+      margin-top: 30px;
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .reading-text {
+        font-size: 1.1rem;
+        padding: 20px;
+      }
+
+      button {
+        padding: 14px 28px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-card">
+    <h1>Read the Paragraph Aloud</h1>
+    <div class="reading-text" id="readingText">
+      The quick brown fox jumps over the lazy dog..
+    </div>
+
+    <button id="recordBtn">🎙️ Start Recording</button>
+    <p class="status" id="status">Press the button to begin recording.</p>
+
+    <audio id="audioPlayback" controls style="display: none;"></audio>
+  </div>
+
+  <script>
+    const recordBtn = document.getElementById("recordBtn");
+    const statusText = document.getElementById("status");
+    const audioPlayback = document.getElementById("audioPlayback");
+
+    let mediaRecorder;
+    let audioChunks = [];
+    let isRecording = false;
+
+    recordBtn.addEventListener("click", async () => {
+      if (!isRecording) {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+
+        mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+        mediaRecorder.onstop = () => {
+          const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+          const audioUrl = URL.createObjectURL(audioBlob);
+          audioPlayback.src = audioUrl;
+          audioPlayback.style.display = "block";
+          statusText.textContent = "Recording stopped. You can now play back the audio.";
+        };
+
+        mediaRecorder.start();
+        isRecording = true;
+        recordBtn.textContent = "⏹️ Stop Recording";
+        statusText.innerHTML = "<span class='recording'>Recording... Speak now.</span>";
+      } else {
+        mediaRecorder.stop();
+        isRecording = false;
+        recordBtn.textContent = "🎙️ Start Recording";
+      }
+    });
+  </script>
+</body>
+</html>
